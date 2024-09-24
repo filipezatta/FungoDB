@@ -1,0 +1,23 @@
+
+
+arrumar clados da DB (dikarya e etc tão errados), classes tb
+    - adicionar ordens e o resto de basidiomycota/ascomycota (ao menos os mais comuns)
+
+adicionar opção de colocar a coordenada atual e a data de hoje no registro
+    - colocar opção de fazer vários registros ao mesmo tempo
+
+colocar um checkmarker de coleta, que adiciona á tabela de coletas
+    - fazer uma lista com coletas (ou colocar na pesquisa?)(talvez colocar com um radio button coletas/pesquisas ou os dois?)
+    - talvez na coleta página da coleta colocar as infos pra identificação e opção alterar (esporada etc)
+
+arrumar estilo página fungox
+
+escrever uma documentação decente pra isso
+
+colocar no github
+
+adicionar opção de "login" para não ter que colocar toda hora o autor
+
+fazer versão lite 
+
+TALVEZ mexer na DB denovo pra colocar uma coluna de observações 

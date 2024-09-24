@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Novo Usuário</title>
+    
+    <link rel="stylesheet" href="../CSS/style.css">
+
+</head>
+<body>
+    <div class="fundo-desfocado centralizar">
+        <span class="subtitle">Criar Novo Usuário</span>
+        <form action="/usuario/create" method="post">
+            <div style="margin: 10vh 25vw 0 25vw" class="grid-flow-horizontal">
+                <div class="divisorias-esquerda descentralizar">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" required>
+                    <br>
+                    <label for="sobrenome">Sobrenome:</label>
+                    <input type="text" id="sobrenome" name="sobrenome">
+                </div>
+                <div class="divisorias-esquerda descentralizar">
+                    <label for="ultimonome">Último Nome:</label>
+                    <input type="text" id="ultimonome" name="ultimonome" required>
+                    <br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="divisorias-esquerda descentralizar">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required>
+                </div>
+            </div>
+            <button class="botoes" type="submit">Criar Usuário</button>
+            <a  class="botoes" href="/">Voltar</a>
+        </form>
+    </div>
+    <br>
+    <div class="fundo-desfocado">
+        <h2>Usuários Existentes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Último Nome</th>
+                    <th>Email</th>
+                    <th>Nome do Autor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% usuarios.forEach(user => { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.nome %></td>
+                        <td><%= user.sobrenome %></td>
+                        <td><%= user.ultimonome %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.autor_nome %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

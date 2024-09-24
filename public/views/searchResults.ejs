@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados da Pesquisa</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body>
+    <div class=" centralizar fundo-desfocado">
+        <h1>Resultados da Pesquisa</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Coordenada</th>
+                    <th>Espécie</th>
+                    <th>Autor</th>
+                    <th>Fotos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% registros.forEach(registro => { %>
+                    <tr>
+                        <td><%= registro.id %></td>
+                        <td><%= new Date(registro.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) %></td>
+                        <td><%= registro.coordenada %></td>
+                        <td><%= registro.especie %></td>
+                        <td><%= registro.autor %></td> 
+                        <td class="view-photos">
+                            <% if (registro.imageCount > 0) { %>
+                                <a href="/fungox?value=<%= registro.id %>">Ver Fotos (<%= registro.imageCount %>)</a>
+                            <% } else { %>
+                                Nenhuma foto
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <a class="botoes" href="/">Voltar</a>
+    </div>
+</body>
+</html>

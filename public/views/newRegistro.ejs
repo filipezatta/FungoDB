@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Registro de Fungo</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script>
+        // Função para validar o número de fotos selecionadas
+        function validateFileInput() {
+            const input = document.getElementById('fotos');
+            const maxFiles = 10;
+            const files = input.files;
+
+            if (files.length > maxFiles) {
+                alert(`Você só pode selecionar no máximo ${maxFiles} fotos.`);
+                input.value = ''; // Limpar o campo de input
+                return false;
+            }
+            return true;
+        }
+
+        // Função para obter a data atual
+        function setTodayDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('data').value = today;
+        }
+
+        // Função para obter a coordenada atual do usuário
+        function setCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    document.getElementById('coordenada').value = `${latitude}, ${longitude}`;
+                }, error => {
+                    console.error("Erro ao obter localização: ", error);
+                    alert('Não foi possível obter sua localização. Insira a coordenada manualmente.');
+                });
+            } else {
+                alert('Geolocalização não é suportada por este navegador. Insira a coordenada manualmente.');
+            }
+        }
+
+        // Executar as funções quando a página carregar
+        window.onload = function() {
+            setTodayDate();
+            setCurrentLocation();
+        };
+    </script>
+</head>
+<body>
+    <div class="fundo-desfocado centralizar titletres">
+        <span class="subtitle">Adicionar Novo Registro de Fungo</span>
+        <form action="/registroFungo/create" method="post" enctype="multipart/form-data" onsubmit="return validateFileInput()">
+            <div style="margin: 10vh 15vw 0 25vw" class="grid-flow-horizontal">
+                <div class="divisorias-esquerda descentralizar fundo-desfocado">
+                    <label for="data">Data:</label>
+                    <input type="date" id="data" name="data" required>
+                    <br><br>
+                    <label for="coordenada">Coordenada:</label>
+                    <input type="text" id="coordenada" name="coordenada" required>
+                        <!-- Select para Caixas -->
+                    <br>
+                    <!-- Select para Caixas -->
+                    <div id="caixa-form">
+                        <label for="Caixas_id">Coleta:</label>
+                        <select class="botoes" id="Caixas_id" name="caixas_id" onchange="handleCaixaChange()">
+                            <option value="">Não adicionar</option>
+                            <% caixas.forEach(caixa => { %>
+                                <option value="<%= caixa.id %>"><%= caixa.nome %></option>
+                            <% }) %>
+                            <option value="nova">Adicionar nova caixa</option>
+                        </select>
+                    </div>
+                    <div id="novaCaixaForm" style="display:none;">
+                        <label for="novaCaixa">Nome da nova caixa:</label>
+                        <input type="text" id="nomeNovaCaixa" name="novaCaixa">
+                    </div>
+
+
+                    <br><br>
+                </div>
+                <!-- Formulário para adicionar nova caixa (inicialmente escondido) -->
+
+                
+                <div id="janela-form-taxon" class="divisorias-esquerda descentralizar fundo-desfocado">
+                    <label for="Taxons_id">Taxon:</label>
+                    <select class="botoes" id="Taxons_id" name="Taxons_id" required>
+                        <% taxons.forEach(taxon => { %>
+                            <option value="<%= taxon.id %>"><%= taxon.nome %></option>
+                        <% }) %>
+                    </select>
+                    <br><br>
+                    <button type="button" class="botoes" id="adicionarEspecieBtn" onclick="toggleEspecieForm()">Adicionar Taxon</button>
+                </div>
+                <!-- Formulário para adicionar nova espécie -->
+                <div id="novaEspecieForm" style="display:none;" class="divisorias-esquerda descentralizar fundo-desfocado">
+                    <label for="ordem">Ordem:</label>
+                    <select id="ordem" name="ordem">
+                        <% ordens.forEach(ordem => { %>
+                            <option value="<%= ordem.id %>"><%= ordem.nome %></option>
+                        <% }) %>
+                    </select>
+                    <br><br>
+                    <label for="genero">Gênero:</label>
+                    <input type="text" id="genero" name="genero" placeholder="Insira o gênero">
+                    <br><br>
+                    <label for="epiteto">Epíteto:</label>
+                    <input type="text" id="epiteto" name="epiteto" placeholder="Insira o epíteto">
+                </div>
+
+                
+                <div class="divisorias-esquerda descentralizar fundo-desfocado">
+                    <label for="fotos">Fotos:</label>
+                    <input class="botoes" style="width: 20vw;" type="file" id="fotos" name="fotos" accept="image/*" multiple>
+                    <br><br>
+                    <label for="observacoes">Observações:</label>
+                    <textarea class="botoes" style="width: 20vw; height: 10vh;" id="observacoes" name="observacoes" placeholder="Adicione observações sobre o registro"></textarea>
+                </div>                           
+            </div>
+            <br>
+            <a class="botoes" href="/">Voltar</a>
+            <button class="botoes" type="submit">Adicionar Registro de Fungo</button>
+            <!--<a class="botoes" class="normal-text" href="/usuario/new">Adicionar novo autor</a>-->
+        </form>
+    </div>
+    <br>
+    <div class="fundo-desfocado descentralizar">
+        <h2>Registros de Fungo</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Coordenada</th>
+                    <th>Autor</th>
+                    <th>Espécie</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% registros.forEach(registro => { %>
+                  <tr>
+                    <td><%= registro.id %></td>
+                    <td>
+                      <%= new Date(registro.data).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                    </td>
+                    <td><%= registro.coordenada %></td>
+                    <td>
+                      <% const autor = autores.find(a => a.id === registro.autor_id); %>
+                      <%= autor ? autor.nome : 'Desconhecido' %>
+                    </td>
+                    <td>
+                        <% const taxonDoRegistro = taxons.find(t => t.id === registro.Taxons_id); %>
+                        <% if (taxonDoRegistro) { %>
+                          <% if (taxonDoRegistro.unidadesTaxonomicas_id !== 11) { %>
+                            <%= taxonDoRegistro.nome %> sp.
+                          <% } else { %>
+                            <%= taxonDoRegistro.nome %>
+                          <% } %>
+                        <% } else { %>
+                          Desconhecido
+                        <% } %>
+                      </td>
+                    <td>
+                        <a class="botoes" href="/fungox?value=<%= registro.id %>">Ver Registro</a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+        </table>
+    </div>
+    <script>
+        // Função para exibir/esconder o formulário de nova espécie
+        function toggleEspecieForm() {
+            document.querySelector('#janela-form-taxon').style.display = 'none';
+            const form = document.getElementById('novaEspecieForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+
+
+        }
+        // Função para lidar com a mudança no select de caixas
+        function handleCaixaChange() {
+            const caixaSelect = document.getElementById('Caixas_id');
+            const novaCaixaForm = document.getElementById('novaCaixaForm');
+            const novaCaixaInput = document.getElementById('nomeNovaCaixa');
+
+            // Se o valor selecionado for 'nova', mostra o formulário de nova caixa e torna o campo obrigatório
+            if (caixaSelect.value === 'nova') {
+                novaCaixaForm.style.display = 'block';
+                novaCaixaInput.required = true; // Torna o campo obrigatório
+            } else {
+                novaCaixaForm.style.display = 'none';
+                novaCaixaInput.required = false; // Remove a obrigatoriedade
+            }
+        }
+
+
+    </script>
+    
+</body>
+</html>

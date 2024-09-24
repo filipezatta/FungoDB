@@ -1,0 +1,33 @@
+/* grid.css */
+
+
+.grid-container {
+    height: calc(var(--vh, 1vh) * 100);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px; /* Espaçamento entre os elementos */
+}
+
+.grid-item {
+    min-height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 1.5em;
+}
+.grid-item img{
+    max-height: 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 1.5em;
+}
+
+#grid-center-fungox{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 5fr 1fr;
+}
+

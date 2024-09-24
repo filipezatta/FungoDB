@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fungo <%= idRegistro %></title>
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/fungox.css">
+    <script>
+        function setVh() {
+            let vh = document.documentElement.clientHeight / 101;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        setVh();
+        window.addEventListener('resize', setVh);
+    </script>
+</head>
+<body>
+    <div class="grid-container">
+        <div id="grid-left-fungox" class="fundo-desfocado grid-item centralizar">
+            <% if (fotos.length > 0) { %>
+                <div>
+                    <img id="fungoImage" src="/resources/pictures/<%= fotos[0].caminho %>" alt="Foto do Fungo">
+                    <span class="normal-text">Autor: <%= fotos[0].autor %></span>
+                </div>
+                <div>
+                    <button class="botoes" id="prevBtn" <% if (fotos.length === 1) { %> disabled <% } %>>Anterior</button>
+                    <button class="botoes" id="nextBtn" <% if (fotos.length === 1) { %> disabled <% } %>>Próximo</button>
+                </div>
+            <% } else { %>
+                <p>Nenhuma foto disponível para este registro.</p>
+            <% } %>
+        </div>
+
+        <div class="fundo-desfocado grid-item " id="grid-center-fungox">
+            <div class="max-size centralizar">
+                <span class="title"> <span class="normal-text">#R<%= idRegistro %></span> <%= taxon.nome %></span> <!-- Substituir x pelo nome do taxon associado -->
+                <span class="normal-text">Está presente na coleção <%= caixa.nome %></span> <!-- Substituir com informações da coleção -->
+            </div>
+            <div class="border-black  max-size">
+                <div>
+                    <div id="filogenia">
+                        <!-- Não foi solicitado implementar a filogenia -->
+                    </div>
+
+                    <div>
+                        <span>Data: <%= new Date(registro.data).toLocaleDateString('pt-BR') %></span>
+                        <br>
+                        <span>Coordenada: <%= registro.coordenada %></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <a href="/" class="botoes">Voltar</a>
+            </div>
+        </div>
+        <div class="fundo-desfocado grid-item centralizar vertical-center">
+            <table class="auto-centralizar">
+                <tr>
+                    <th>Substrato</th>
+                    <td><%= coleta.substrato %></td>
+                </tr>
+                <tr>
+                    <th>Esporada</th>
+                    <td><%= coleta.esporada %></td>
+                </tr>
+                <tr>
+                    <th>Textura</th>
+                    <td><%= coleta.textura %></td>
+                </tr>
+                <tr>
+                    <th>Observações</th>
+                    <td><%= coleta.observacoes %></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        // Usa JSON.stringify diretamente para escapar corretamente os dados
+        // @ts-ignore
+        const fotos = <%- JSON.stringify(fotos.map(foto => foto.caminho)) %>;
+        let currentImageIndex = 0;
+
+        function updateImage() {
+            const imgElement = document.getElementById('fungoImage');
+            if (fotos.length > 0) {
+                const newImagePath = `resources/pictures/${fotos[currentImageIndex]}`;
+                imgElement.src = newImagePath;
+                document.getElementById('prevBtn').disabled = currentImageIndex === 0;
+                document.getElementById('nextBtn').disabled = currentImageIndex === fotos.length - 1;
+            }
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentImageIndex < fotos.length - 1) {
+                currentImageIndex++;
+                updateImage();
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateImage();
+            }
+        });
+
+        // Inicializar a imagem e os botões
+        updateImage();
+    </script>
+</body>
+</html>

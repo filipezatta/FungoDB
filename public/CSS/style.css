@@ -1,0 +1,226 @@
+html {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    --fontsize: 1.5vh;
+
+    
+    margin: 0;
+    padding: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    font-size: var(--fontsize);
+    color: black;
+}
+a {
+    text-decoration: none; 
+    color: black;
+    
+}
+
+body {
+    background-image: url(../../resources/bgimage.JPG);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-sizing: border-box;
+}
+
+.centralizar-wrapper {
+    /* Centraliza o conteúdo da div */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Garante que o body ocupe a altura total da viewport */
+    margin: 0;
+}
+
+.centralizar {
+    position: relative;
+    text-align: center;
+    align-items: center;
+}
+
+.auto-centralizar {
+    align-self: center;
+}
+
+.descentralizar {
+    text-align: left;
+}
+
+.fundo-desfocado {
+    background: rgba(207, 198, 198, 0.096); /* Fundo semi-transparente */
+    border-radius: 15px;
+    z-index: 1; /* Garante que o conteúdo esteja sobre o fundo borrado */
+    /* Adiciona um leve desfoque ao fundo */
+    backdrop-filter: blur(10px);
+}
+
+.fundo-desfocado::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Herda o background do body */
+    filter: blur(10px); /* Aplica o desfoque */
+    z-index: -1; /* Garante que o fundo borrado esteja atrás do conteúdo */
+    border-radius: 15px;
+}
+
+.title {
+    font-size: calc(5*var(--fontsize));
+    display: block;
+    margin-bottom: calc(var(--fontsize)* 3);
+}
+
+.subtitle {
+    font-size: calc(var(--fontsize)*2);
+    display: block;
+    margin-bottom: var(--fontsize);
+}
+
+.titletres {
+    font-size: calc(var(--fontsize)*1.25);
+    display: block;
+    margin-bottom: var(--fontsize);
+}
+
+.normal-text {
+    font-size: var(--fontsize);
+}
+
+.botoes {
+    font-size: calc(var(--fontsize));
+    background: rgba(255, 255, 255, 0.603); /* Fundo semi-transparente */
+    border-radius: 5px;
+    padding: 5px;
+    z-index: 1; /* Garante que o conteúdo esteja sobre o fundo borrado */
+    /* Adiciona um leve desfoque ao fundo */
+    backdrop-filter: blur(15px);
+    margin-top: 10px;
+}
+input:focus::placeholder {
+    color: transparent;
+  }
+  input::placeholder {
+    color: rgba(0, 0, 0, 0.781);
+}
+
+.botoes:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit; /* Herda o background do body */
+    filter: blur(10px); /* Aplica o desfoque */
+    z-index: -1; /* Garante que o fundo borrado esteja atrás do conteúdo */
+    border-radius: 15px;
+}
+
+.grid-flow-horizontal {
+    display: grid;
+    grid-auto-flow: column; /* Flui os itens na direção das colunas, da esquerda para a direita */
+    gap: 1vw;
+}
+.divisorias-esquerda {
+    border-left: solid black 4px;
+    padding: 1vw 1vw 1vw 1vw;
+}
+
+input[type="file"],
+input[type="date"],
+input[type="button"], 
+input[type="text"] {
+    border: none;
+    border-bottom: 1px solid black; /* Linha na parte inferior */
+    background: transparent;
+    width: 1.5vw; /* Ajuste conforme necessário */
+    padding: 0;
+    margin: 0;
+    outline: none; /* Remove o contorno padrão ao focar */
+}
+
+table {
+    border-collapse: collapse; /* Remove o espaço entre as bordas das células */
+    width: 100%;
+}
+
+th, td {
+    border-bottom: 1px solid #2c2828; /* Linha de separação entre as linhas */
+    padding: 8px;
+}
+
+tr:last-child td {
+    border-bottom: none; /* Remove a borda na última linha (opcional) */
+}
+
+hr {
+    border-color: black;
+}
+
+.hidden {
+    display: none;
+}
+
+.from-bottom {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+}
+
+.border-black{
+    border: black solid 1px;
+}
+
+.max-size {
+    height: 100%;
+    width: 100%;
+}
+
+/* grid.css */
+
+
+.grid-container {
+    height: calc(var(--vh, 1vh) * 100);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px; /* Espaçamento entre os elementos */
+}
+
+.grid-item {
+    min-height: 100%;
+    padding: 1vh;
+    box-sizing: border-box;
+    font-size: 1.5em;
+    gap: 1vw;
+}
+
+
+.vertical-center {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    height: 100%;            /* Garante que ocupe a altura completa da célula */
+}
+
+#grid-center-fungox{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 5fr 1fr;
+}
+
+#grid-left-fungox{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 9fr 1fr 1fr;
+}
+
+#fungo-image {
+    max-height: 4vw;
+}

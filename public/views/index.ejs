@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+<body class="centralizar-wrapper">
+    <div class="centralizar fundo-desfocado">
+        <span class="title">FungoDB</span>
+        <span class="subtitle">Database de fungos</span>
+        <hr>
+
+        <!-- Corrigido a interpolação do EJS -->
+        <div id="pagina-inicial-login" class="<%= logado === true ? 'hidden' : '' %>">
+            <span class="subtitle">Login</span>
+            <form action="/login" method="post" class="descentralizar">
+        
+                <label for="E-mail">E-mail:</label>
+                <input type="email" name="email" id="emailLogin" required>
+    
+                <label for="Senha">Senha:</label>
+                <input type="password" name="senha" id="senhaLogin" required>
+                <br>
+    
+                <button type="button" class="botoes" onclick="togglecadastro()">Cadastro</button>
+    
+                <button type="submit" name="entrar" value="Entrar" class="botoes">Entrar</button>
+                
+            </form>
+        </div>
+
+        <!-- Página de cadastro -->
+        <div id="pagina-inicial-cadastro" class="hidden">
+            <form action="/usuario/create" method="post">
+                <div>
+                    <div class="divisorias-esquerda descentralizar">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" name="nome" required>
+                        <br>
+                        <label for="sobrenome">Sobrenome:</label>
+                        <input type="text" id="sobrenome" name="sobrenome">
+                    </div>
+                    <div class="divisorias-esquerda descentralizar">
+                        <label for="ultimonome">Último Nome:</label>
+                        <input type="text" id="ultimonome" name="ultimonome" required>
+                        <br>
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="divisorias-esquerda descentralizar">
+                        <label for="senha">Senha:</label>
+                        <input type="password" id="senha" name="senha" required>
+                    </div>
+                </div>
+                <button class="botoes" type="submit">Criar Usuário</button>
+                <a class="botoes" href="/">Voltar</a>
+            </form>
+        </div>
+
+        <!-- Página para usuários logados -->
+        <div id="pagina-inicial-logado" class="<%= logado === false ? 'hidden' : '' %>">
+            <form id="searchForm" action="/search" method="POST">
+                <label class="normal-text" for="searchValue">Pesquisar registro:</label>
+                <input class="normal-text" type="text" id="searchValue" style="width: 20vw;" name="searchValue" placeholder="Pesquise por id registro, autor ou taxon" required>
+                <button class="botoes" type="submit"> → </button>
+            </form>
+            <br>
+            <a href="/logout" class="botoes">Sair</a>
+            <a href="/registroFungo/new" class="botoes">Registrar novo Fungo</a>
+
+            <br>
+        </div>
+    </div>
+
+    <script async defer>
+        document.addEventListener('DOMContentLoaded', function () {
+            const redirectButton = document.querySelector('button[type="submit"]');
+            redirectButton.addEventListener('click', function () {
+                const inputValue = document.getElementById('fungoValue').value;
+                if (inputValue) {
+                    // Redirecionar para a rota correta
+                    window.location.href = `/fungox?value=${encodeURIComponent(inputValue)}`;
+                } else {
+                    alert('Please enter a value.');
+                }
+            });
+        });
+
+        function togglecadastro() {
+            document.querySelector('#pagina-inicial-login').style.display = 'none';
+            document.querySelector('#pagina-inicial-cadastro').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
